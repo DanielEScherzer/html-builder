@@ -1,0 +1,41 @@
+{
+	"name": "danielescherzer/html-builder",
+	"description": "Tools for building HTML",
+	"type": "library",
+	"authors": [
+		{
+			"name": "Daniel E Scherzer",
+			"homepage": "https://github.com/DanielEScherzer"
+		}
+	],
+	"license": "MIT",
+	"require-dev": {
+		"danielescherzer/common-phpcs": "0.0.2",
+		"phpunit/phpunit": "^12.0",
+		"php-parallel-lint/php-parallel-lint": "^1.4",
+		"wikimedia/testing-access-wrapper": "^3.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"DanielEScherzer\\HTMLBuilder\\": "src/"
+		}
+	},
+	"scripts": {
+		"parallel-lint": "parallel-lint . --exclude vendor",
+		"phpcs": "phpcs -p -s",
+		"phpunit": "php -d extension=pcov.so -d pcov.enabled=1 -d pcov.directory=. vendor/bin/phpunit",
+		"lint": [
+			"@parallel-lint",
+			"@phpcs"
+		],
+		"test": [
+			"@phpunit",
+			"@lint"
+		]
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	}
+}
