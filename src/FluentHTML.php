@@ -6,9 +6,9 @@ namespace DanielEScherzer\HTMLBuilder;
 /**
  * Fluent interface for building HTML
  */
-class FluentHTML {
+class FluentHTML implements ProcessedHTML {
 
-	/** @var (string|RawHTML|FluentHTML)[] */
+	/** @var (string|ProcessedHTML)[] */
 	private array $contents = [];
 
 	private string $tag;
@@ -117,13 +117,23 @@ class FluentHTML {
 		return $this;
 	}
 
-	public function addChild( string|RawHTML|FluentHTML $html ): static {
+	public function addChild( string|ProcessedHTML $html ): static {
 		if ( SpecData::isVoidElement( $this->tag ) ) {
 			throw new VoidElementChildException(
 				"Tag `$this->tag` is a void element and cannot have children"
 			);
 		}
 		$this->contents[] = $html;
+		return $this;
+	}
+
+	/**
+	 * Add multiple children with a variadic helper
+	 */
+	public function append( string|ProcessedHTML ...$children ): static {
+		foreach ( $children as $html ) {
+			$this->addChild( $html );
+		}
 		return $this;
 	}
 
@@ -165,7 +175,7 @@ class FluentHTML {
 			);
 		}
 		foreach ( $this->contents as $child ) {
-			if ( $child instanceof RawHTML || $child instanceof FluentHTML ) {
+			if ( $child instanceof ProcessedHTML ) {
 				$result .= $child->getHTML();
 				continue;
 			}

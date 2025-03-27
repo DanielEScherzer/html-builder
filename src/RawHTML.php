@@ -7,7 +7,7 @@ namespace DanielEScherzer\HTMLBuilder;
  * Raw HTML is HTML that should not be escaped because the contents are known
  * to be safe (e.g. the developer writes the HTML manually)
  */
-class RawHTML {
+class RawHTML implements ProcessedHTML {
 
 	private string $html;
 
