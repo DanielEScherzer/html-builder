@@ -127,6 +127,16 @@ class FluentHTML implements ProcessedHTML {
 		return $this;
 	}
 
+	/**
+	 * Add multiple children with a variadic helper
+	 */
+	public function append( string|ProcessedHTML ...$children ): static {
+		foreach ( $children as $html ) {
+			$this->addChild( $html );
+		}
+		return $this;
+	}
+
 	public function getHTML(): string {
 		$result = "<";
 		$result .= $this->tag;
