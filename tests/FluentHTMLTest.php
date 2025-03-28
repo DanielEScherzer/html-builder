@@ -273,4 +273,50 @@ class FluentHTMLTest extends TestCase {
 		// phpcs:enable Generic.Files.LineLength.TooLong
 	}
 
+	public function testMake() {
+		$result = FluentHTML::make(
+			'form',
+			[
+				'id' => 'submission-form',
+				'class' => [ 'my-project-forms', 'example-form' ],
+			],
+			[
+				FluentHTML::make(
+					'label',
+					[ 'for' => 'username-input' ],
+					'<username>'
+				),
+				FluentHTML::make(
+					'input',
+					[
+						'type' => 'text',
+						'name' => 'username',
+						'id' => 'username-input',
+					],
+					[]
+				),
+				FluentHTML::make(
+					'button',
+					[
+						'type' => 'submit',
+						'disabled' => true,
+						'class' => 'btn-submit',
+					],
+					'Submit'
+				),
+			]
+		)->getHTML();
+
+		// phpcs:disable Generic.Files.LineLength.TooLong
+		$this->assertSame(
+			'<form id="submission-form" class="my-project-forms example-form">' .
+				'<label for="username-input">&lt;username&gt;</label>' .
+				'<input type="text" name="username" id="username-input">' .
+				'<button type="submit" disabled class="btn-submit">Submit</button>' .
+			'</form>',
+			$result
+		);
+		// phpcs:enable Generic.Files.LineLength.TooLong
+	}
+
 }

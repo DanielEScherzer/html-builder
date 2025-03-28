@@ -37,6 +37,28 @@ class FluentHTML implements ProcessedHTML {
 	}
 
 	/**
+	 * Utility for creating a new element with attributes and contents directly
+	 * in a single call.
+	 *
+	 * @param string $tag
+	 * @param array<string, string|array|bool> $attributes
+	 * @param string|ProcessedHTML|(string|ProcessedHTML)[] $children
+	 * @return FluentHTML
+	 */
+	public static function make(
+		string $tag,
+		array $attributes,
+		string|ProcessedHTML|array $children
+	): FluentHTML {
+		if ( !is_array( $children ) ) {
+			$children = [ $children ];
+		}
+		return self::fromTag( $tag )
+			->setAttributes( $attributes )
+			->append( ...$children );
+	}
+
+	/**
 	 * As a shortcut for arrays, string values with integer keys are the same
 	 * as that string being a key with the value of true
 	 */
