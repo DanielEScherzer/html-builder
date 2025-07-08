@@ -159,6 +159,14 @@ class FluentHTML implements ProcessedHTML {
 		return $this;
 	}
 
+	/**
+	 * Clear existing children
+	 */
+	public function clearContents(): static {
+		$this->contents = [];
+		return $this;
+	}
+
 	public function getHTML(): string {
 		$result = "<";
 		$result .= $this->tag;

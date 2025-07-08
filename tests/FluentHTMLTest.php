@@ -177,6 +177,21 @@ class FluentHTMLTest extends TestCase {
 		);
 	}
 
+	public function testClearContents() {
+		$this->assertSame(
+			'<div><p>Paragraph 2</p></div>',
+			FluentHTML::fromTag( 'div' )
+				->addChild( 'Escaped\'"<>' )
+				->addChild( new RawHTML( "<p>Paragraph 1</p>" ) )
+				->clearContents()
+				->addChild(
+					FluentHTML::fromTag( 'p' )
+						->addChild( 'Paragraph 2' )
+				)
+				->getHTML()
+		);
+	}
+
 	public function testBypassAttribute() {
 		$div = FluentHTML::fromTag( 'div' );
 		$access = TestingAccessWrapper::newFromObject( $div );
